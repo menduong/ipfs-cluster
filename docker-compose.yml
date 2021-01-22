@@ -35,13 +35,18 @@ services:
   ipfs0:
     container_name: ipfs0
     image: ipfs/go-ipfs:release
-#   ports:
-#     - "4001:4001" # ipfs swarm - expose if needed/wanted
-#     - "5001:5001" # ipfs api - expose if needed/wanted
-#     - "8080:8080" # ipfs gateway - expose if needed/wanted
+    ports:
+      - "4001:4001" # ipfs swarm - expose if needed/wanted
+      - "5001:5001" # ipfs api - expose if needed/wanted
+      - "8080:8080" # ipfs gateway - expose if needed/wanted
+    expose:
+      - "5001"
+      - "8080"
     volumes:
       - ./compose/ipfs0:/data/ipfs
-      
+    networks:
+      - docuguard
+
   cluster0:
     container_name: cluster0
     image: ipfs/ipfs-cluster:latest
@@ -63,6 +68,8 @@ services:
           # - "9096:9096" # Cluster IPFS Proxy endpoint
     volumes:
       - ./compose/cluster0:/data/ipfs-cluster
+    networks:
+      - docuguard
 
 ##################################################################################
 ## Cluster PEER 1 ################################################################
@@ -116,3 +123,8 @@ services:
 
 # For adding more peers, copy PEER 1 and rename things to ipfs2, cluster2.
 # Keep bootstrapping to cluster0.
+
+networks:
+  docuguard:
+    name: docuguard_network
+    driver: bridge
