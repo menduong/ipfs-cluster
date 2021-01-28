@@ -45,7 +45,7 @@ services:
     volumes:
       - ./compose/ipfs0:/data/ipfs
     networks:
-      - docuguard
+      - ipfs_cluster
 
   cluster0:
     container_name: cluster0
@@ -71,8 +71,7 @@ services:
     volumes:
       - ./compose/cluster0:/data/ipfs-cluster
     networks:
-      - docuguard
-
+      - ipfs_cluster
 ##################################################################################
 ## Cluster PEER 1 ################################################################
 ##################################################################################
@@ -131,6 +130,6 @@ services:
 # Keep bootstrapping to cluster0.
 
 networks:
-  docuguard:
-    name: docuguard_network
+  ipfs_cluster:
+    name: ipfs_cluster_network
     driver: bridge
